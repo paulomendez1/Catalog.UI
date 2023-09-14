@@ -1,0 +1,47 @@
+form {
+    padding: 20px;
+    width: 100%;
+}
+
+.col {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+mat-form-field {
+    width: 30%;
+}
+.title {
+    text-align: center;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    margin-top: 10px;
+}
+
+
+@media (max-width: 600px) {
+
+    .col {
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    mat-form-field {
+        width: 100%;
+    }
+
+    .row {
+        flex-wrap: nowrap;
+    }
+
+    button.mat-raised-button:first-child {
+        margin-bottom: 10px;
+        width: 10%;
+    }
+
+  }

@@ -1,0 +1,17 @@
+<h2 class="title">Add a new Genre</h2>
+<form [formGroup]="genreForm">
+    <div class="col">
+        <mat-form-field>
+            <mat-label>Genre Description</mat-label>
+            <input matInput [formControl]="genreForm.controls['genreDescription']| formControl"
+                placeholder="Enter the genre description">
+            <mat-error *ngIf="genreForm.controls['genreDescription'].hasError('required')">
+                Genre description is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </div>
+</form>
+<div class="row">
+    <button mat-raised-button [disabled]="genreForm.invalid" (click)="saveGenre()">Save</button>
+    <button mat-raised-button routerLink="/genres">Cancel</button>
+</div>

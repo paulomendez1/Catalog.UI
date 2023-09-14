@@ -1,0 +1,42 @@
+<mat-sidenav-container>
+
+    <mat-sidenav #sidenav mode="over">
+        <label>My Application</label>
+        <hr />
+        <nav>
+            <a routerLink="items" (click)="clickHandler()" routerLinkActive="active">Items</a>
+            <a routerLink="artists" (click)="clickHandler()" routerLinkActive="active">Artists</a>
+            <a routerLink="genres" (click)="clickHandler()" routerLinkActive="active">Genres</a>
+            <a *ngIf="this.authService.isAuthenticated()" (click)="clickHandler()" routerLinkActive="active">Hello!
+                {{this.authService.getFieldFromJWT('email')}}</a>
+            <a *ngIf="!this.authService.isAuthenticated()" (click)="clickHandler()" routerLinkActive="active">Login</a>
+            <a *ngIf="!this.authService.isAuthenticated()" (click)="clickHandler()" routerLink="signup"
+                (click)="clickHandler()" routerLinkActive="active">Sign Up</a>
+            <a routerLink="contact" (click)="clickHandler()" routerLinkActive="active">Contact</a>
+        </nav>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <mat-toolbar color="primary">
+            <header>
+                <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+                <label>My Application</label>
+                <nav>
+                    <a routerLink="items" routerLinkActive="active">Items</a>
+                    <a routerLink="artists" routerLinkActive="active">Artists</a>
+                    <a routerLink="genres" routerLinkActive="active">Genres</a>
+                    <a *ngIf="this.authService.isAuthenticated()" routerLinkActive="active">Hello
+                        {{this.authService.getFieldFromJWT('email')}}</a>
+                    <a *ngIf="!this.authService.isAuthenticated()" routerLink="login"
+                        routerLinkActive="active">Login</a>
+                    <a *ngIf="!this.authService.isAuthenticated()" (click)="clickHandler()" routerLink="signup"
+                        routerLinkActive="active">Sign Up</a>
+                    <a routerLink="contact" routerLinkActive="active">Contact</a>
+                </nav>
+            </header>
+        </mat-toolbar>
+        <section>
+            <router-outlet></router-outlet>
+        </section>
+    </mat-sidenav-content>
+</mat-sidenav-container>

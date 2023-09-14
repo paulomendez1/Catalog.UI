@@ -1,0 +1,109 @@
+<h2 class="title">Add a new Item</h2>
+<form [formGroup]="itemForm">
+    <div class="col">
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput [formControl]="itemForm.controls['name']| formControl" placeholder="Enter the item name">
+            <mat-error *ngIf="itemForm.controls['name'].hasError('required')">
+                Name is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Description</mat-label>
+            <input matInput [formControl]="itemForm.controls['description'] | formControl"
+                placeholder="Enter the item Description">
+            <mat-error *ngIf="itemForm.controls['description'].hasError('required')">
+                Description is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Label Name</mat-label>
+            <input matInput [formControl]="itemForm.controls['labelName'] | formControl"
+                placeholder="Enter the item label name">
+            <mat-error *ngIf="itemForm.controls['labelName'].hasError('required')">
+                Label Name is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="col">
+        <mat-form-field>
+            <mat-label>Release Date</mat-label>
+            <input matInput [matDatepicker]="picker" [formControl]="itemForm.controls['releaseDate'] | formControl">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="itemForm.controls['releaseDate'].hasError('required')">
+                Release Date is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Format</mat-label>
+            <input matInput [formControl]="itemForm.controls['format'] | formControl"
+                placeholder="Enter the item format">
+            <mat-error *ngIf="itemForm.controls['format'].hasError('required')">
+                Format is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Available Stock</mat-label>
+            <input matInput [formControl]="itemForm.controls['availableStock'] | formControl"
+                placeholder="Enter the item available stock">
+            <mat-error *ngIf="itemForm.controls['availableStock'].hasError('required')">
+                Available stock is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="itemForm.controls['availableStock'].hasError('pattern')">
+                Available stock format is <strong>incorrect</strong> (only numbers)
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="col">
+        <mat-form-field>
+            <mat-label>Picture URL</mat-label>
+            <input matInput [formControl]="itemForm.controls['pictureUri'] | formControl"
+                placeholder="Enter the item image URL">
+            <mat-error *ngIf="itemForm.controls['pictureUri'].hasError('required')">
+                Picture URL is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Genre</mat-label>
+            <mat-select formControlName="genreId" name="genreId">
+                <mat-option *ngFor="let genre of genres" [value]="genre.genreId">
+                    {{genre.genreDescription}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Artist</mat-label>
+            <mat-select formControlName="artistId" name="artistId">
+                <mat-option *ngFor="let artist of artists" [value]="artist.artistId">
+                    {{artist.artistName}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</form>
+<form [formGroup]="priceForm">
+    <div class="col">
+        <mat-form-field>
+            <mat-label>Amount</mat-label>
+            <input matInput [formControl]="priceForm.controls['amount'] | formControl"
+                placeholder="Enter the item amount">
+            <mat-error *ngIf="priceForm.controls['amount'].hasError('required')">
+                Amount is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Currency</mat-label>
+            <input matInput [formControl]="priceForm.controls['currency'] | formControl"
+                placeholder="Enter the item currency">
+            <mat-error *ngIf="priceForm.controls['currency'].hasError('required')">
+                Currency is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </div>
+</form>
+<div class="row">
+    <button mat-raised-button [disabled]="itemForm.invalid" (click)="saveItem()">Save</button>
+    <button mat-raised-button routerLink="/items">Cancel</button>
+</div>

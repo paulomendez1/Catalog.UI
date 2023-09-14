@@ -1,0 +1,35 @@
+table {
+  margin-top: 5%;
+}
+button {
+  margin-top: 5%;
+}
+mat-form-field {
+  margin-top: 5%;
+  margin-bottom: -5%;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+mat-cell {
+  white-space: nowrap; 
+}
+
+@media (max-width: 600px) {
+  .mat-header-cell,
+  .mat-cell {
+    display: block;
+    text-align: left;
+  }
+
+  .mat-header-cell {
+    font-weight: bold;
+  }
+
+  mat-paginator {
+    width: 210%;
+  }
+}
