@@ -28,13 +28,12 @@ export class ArtistComponent {
   public populateArtists() {
     this.artistService.getAll().subscribe(response => {
       this.dataSource = new MatTableDataSource(response.body);
-      this.pagination = JSON.parse(response.headers.get("x-pagination") || '{}');
+      this.pagination = JSON.parse(response.headers?.get("x-pagination") || '{}');
       this.totalAmountOfRecords = this.pagination.totalCount
     })
   }
 
   updatePagination(event: PageEvent) {
-    console.log(event);
     this.currentPage = event.pageIndex + 1;
     this.pageSize = event.pageSize;
     this.populateArtists();

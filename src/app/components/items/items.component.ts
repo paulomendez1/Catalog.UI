@@ -1,12 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { Component } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { userCredentials } from 'src/app/models/auth/user-credentials';
-import { Item } from 'src/app/models/item';
 import { ItemsService } from 'src/app/services/items.service';
 import { Pagination } from 'src/app/shared/Pagination.model';
-import { AuthService } from 'src/app/shared/auth.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -31,16 +27,14 @@ export class ItemsComponent {
   }
 
   public populateItems() {
-    console.log(this.pageSize);
     this.itemsService.getAll('', this.currentPage, this.pageSize).subscribe(response => {
       this.dataSource = new MatTableDataSource(response.body);
-      this.pagination = JSON.parse(response.headers.get("x-pagination") || '{}');
+      this.pagination = JSON.parse(response.headers?.get("x-pagination") || '{}');
       this.totalAmountOfRecords = this.pagination.totalCount
     });
   }
 
   updatePagination(event: PageEvent) {
-    console.log(event);
     this.currentPage = event.pageIndex + 1;
     this.pageSize = event.pageSize;
     this.populateItems();

@@ -11,7 +11,7 @@ export class GenreService {
 
   constructor(private http: HttpClient) { }
 
-  private apiURL = environment.apiURL + '/genre'
+  public apiURL = environment.apiURL + '/genre'
 
   public getAll(pageSize?: number, pageIndex?: number): Observable<any> {
     let params = new HttpParams()

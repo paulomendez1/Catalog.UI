@@ -12,6 +12,6 @@
     </div>
 </form>
 <div class="row">
-    <button mat-raised-button [disabled]="artistForm.invalid" (click)="saveArtist()">Save</button>
-    <button mat-raised-button routerLink="/artists">Cancel</button>
+    <button mat-raised-button [disabled]="artistForm.invalid" (click)="saveArtist()" id="save-btn">Save</button>
+    <button mat-raised-button routerLink="/artists" id="cancel-btn">Cancel</button>
 </div>

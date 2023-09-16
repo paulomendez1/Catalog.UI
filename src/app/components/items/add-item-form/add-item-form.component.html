@@ -104,6 +104,6 @@
     </div>
 </form>
 <div class="row">
-    <button mat-raised-button [disabled]="itemForm.invalid" (click)="saveItem()">Save</button>
-    <button mat-raised-button routerLink="/items">Cancel</button>
+    <button mat-raised-button [disabled]="itemForm.invalid" (click)="saveItem()" id="save-btn">Save</button>
+    <button mat-raised-button routerLink="/items" id="cancel-btn">Cancel</button>
 </div>

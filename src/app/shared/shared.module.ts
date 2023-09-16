@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "./material.module";
 import { FormControlPipe } from "./form-control.pipe";
+import { RouterTestingModule } from "@angular/router/testing";
 
 @NgModule({
     declarations: [

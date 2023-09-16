@@ -17,7 +17,7 @@ export class ItemsService {
     'Access-Control-Expose-Headers': '*'
   };
 
-  private apiURL = environment.apiURL + '/items'
+  public apiURL = environment.apiURL + '/items'
 
   public getAll(searchQuery: string, pageNumber: number, pageSize: number): Observable<any> {
     let params = new HttpParams()

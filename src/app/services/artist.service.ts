@@ -11,7 +11,7 @@ export class ArtistService {
 
   constructor(private http: HttpClient) { }
 
-  private apiURL = environment.apiURL + '/artist'
+  public apiURL = environment.apiURL + '/artist'
 
   public getAll(pageSize?: number, pageIndex?: number): Observable<any> {
     let params = new HttpParams()

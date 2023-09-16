@@ -12,6 +12,6 @@
     </div>
 </form>
 <div class="row">
-    <button mat-raised-button [disabled]="genreForm.invalid" (click)="saveGenre()">Save</button>
-    <button mat-raised-button routerLink="/genres">Cancel</button>
+    <button mat-raised-button [disabled]="genreForm.invalid" (click)="saveGenre()" id="save-btn">Save</button>
+    <button mat-raised-button routerLink="/genres" id="cancel-btn">Cancel</button>
 </div>
