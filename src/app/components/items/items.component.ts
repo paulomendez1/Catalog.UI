@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subject, takeUntil } from 'rxjs';
 import { ItemsService } from 'src/app/services/items.service';
 import { Pagination } from 'src/app/shared/Pagination.model';
 import Swal from 'sweetalert2';
@@ -20,18 +21,26 @@ export class ItemsComponent {
   public currentPage = 1;
   public pagination!: Pagination;
   public pageSize = 5;
+  destroy$ = new Subject<void>();
 
 
   ngOnInit() {
     this.populateItems();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   public populateItems() {
-    this.itemsService.getAll('', this.currentPage, this.pageSize).subscribe(response => {
-      this.dataSource = new MatTableDataSource(response.body);
-      this.pagination = JSON.parse(response.headers?.get("x-pagination") || '{}');
-      this.totalAmountOfRecords = this.pagination.totalCount
-    });
+    this.itemsService.getAll('', this.currentPage, this.pageSize)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(response => {
+        this.dataSource = new MatTableDataSource(response.body);
+        this.pagination = JSON.parse(response.headers?.get("x-pagination") || '{}');
+        this.totalAmountOfRecords = this.pagination.totalCount
+      });
   }
 
   updatePagination(event: PageEvent) {

@@ -8,6 +8,7 @@ import { ArtistService } from 'src/app/services/artist.service';
 import { GenreService } from 'src/app/services/genre.service';
 import Swal from 'sweetalert2';
 import { ItemsService } from 'src/app/services/items.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-add-item-form',
@@ -25,6 +26,7 @@ export class AddItemFormComponent {
   public genres: Genre[] = [];
   public item!: Item;
   public price!: Price;
+  destroy$ = new Subject<void>();
 
   constructor(private formBuilder: FormBuilder, public dialog: MatDialog,
     private artistService: ArtistService, private genreService: GenreService,
@@ -34,6 +36,11 @@ export class AddItemFormComponent {
     this.initializeForms();
     this.populateArtists();
     this.populateGenres();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private initializeForms() {
@@ -75,15 +82,19 @@ export class AddItemFormComponent {
   }
 
   public populateArtists() {
-    this.artistService.getAll().subscribe(response => {
-      this.artists = response.body;
-    })
+    this.artistService.getAll()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(response => {
+        this.artists = response.body;
+      })
   }
 
   public populateGenres() {
-    this.genreService.getAll().subscribe(response => {
-      this.genres = response.body;
-    })
+    this.genreService.getAll()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(response => {
+        this.genres = response.body;
+      })
   }
 
   public saveItem() {

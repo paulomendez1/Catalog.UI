@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subject, takeUntil } from 'rxjs';
 import { GenreService } from 'src/app/services/genre.service';
 import { Pagination } from 'src/app/shared/Pagination.model';
 
@@ -15,6 +16,7 @@ export class GenreComponent {
   public currentPage = 1;
   public pagination!: Pagination;
   public pageSize = 5;
+  destroy$ = new Subject<void>();
 
   constructor(private genreService: GenreService) { }
 
@@ -25,12 +27,19 @@ export class GenreComponent {
     this.populateGenres();
   }
 
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   public populateGenres() {
-    this.genreService.getAll().subscribe(response => {
-      this.dataSource = new MatTableDataSource(response.body);
-      this.pagination = JSON.parse(response.headers?.get("x-pagination") || '{}');
-      this.totalAmountOfRecords = this.pagination.totalCount
-    })
+    this.genreService.getAll()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(response => {
+        this.dataSource = new MatTableDataSource(response.body);
+        this.pagination = JSON.parse(response.headers?.get("x-pagination") || '{}');
+        this.totalAmountOfRecords = this.pagination.totalCount
+      })
   }
 
   updatePagination(event: PageEvent) {
