@@ -19,6 +19,7 @@ export class ArtistComponent {
   public pageSize = 5;
   destroy$ = new Subject<void>();
   public errors: string[] = [];
+  public isLoading = true;
 
   constructor(private artistService: ArtistService) { }
 
@@ -39,12 +40,13 @@ export class ArtistComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
+          this.isLoading = false;
           this.dataSource = new MatTableDataSource(response.body);
           this.pagination = JSON.parse(response.headers?.get("x-pagination") || '{}');
           this.totalAmountOfRecords = this.pagination.totalCount
         },
-        error: (error) => {
-          this.errors = parseWebAPIErrors(error);
+        error: () => {
+          this.isLoading = false;
         }
       })
   }

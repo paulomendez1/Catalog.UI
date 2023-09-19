@@ -3,7 +3,13 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Good Kid" #input>
 </mat-form-field>
 
-<div class="table-container">
+
+<div *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center; background: white;">
+    <mat-progress-spinner color="primary" mode="indeterminate">
+    </mat-progress-spinner>
+</div>
+
+<div *ngIf="!isLoading" class="table-container">
     <table mat-table [dataSource]="dataSource" #table>
 
         <!-- Name Column -->
