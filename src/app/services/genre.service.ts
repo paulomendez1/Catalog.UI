@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, retry, timeout } from 'rxjs';
+import { Observable, catchError, map, of, retry, timeout } from 'rxjs';
 import { environment } from 'src/enviroments/enviroment';
 import { Genre } from '../models/genre';
 
@@ -13,15 +13,18 @@ export class GenreService {
 
   public apiURL = environment.apiURL + '/genre'
 
-  public getAll(pageSize?: number, pageIndex?: number): Observable<any> {
+  public getAll(searchQuery?: string, pageNumber?: number, pageSize?: number, sortColumn?: string, sortOrder?: string): Observable<any> {
     let params = new HttpParams()
-    if (pageIndex && pageSize) {
-      params.set('pageSize', pageSize)
-      params.set('pageIndex', pageIndex)
-    }
+    if (pageNumber) { params = params.set("PageNumber", pageNumber) }
+    if (pageSize) { params = params.set("PageSize", pageSize) }
+    if (sortColumn) { params = params.set("SortColumn", sortColumn) }
+    if (sortOrder) { params = params.set("SortOrder", sortOrder) }
+    if (searchQuery) { params = params.set("searchQuery", searchQuery) }
+
     return this.http.get<any>(this.apiURL, { observe: 'response', params }).pipe(
       retry(3),
-      timeout(15000)
+      timeout(15000),
+      catchError(error => of([]))
     );
   }
 

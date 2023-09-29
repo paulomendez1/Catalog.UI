@@ -10,23 +10,23 @@
 </div>
 
 <div *ngIf="!isLoading" class="table-container">
-    <table mat-table [dataSource]="dataSource" #table>
+    <table mat-table [dataSource]="dataSource" #table matSort (matSortChange)="populateItems()">
 
         <!-- Name Column -->
         <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
             <td mat-cell *matCellDef="let element"> {{element.name}} </td>
         </ng-container>
 
         <!-- Description Column -->
         <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
             <td mat-cell *matCellDef="let element"> {{element.description}} </td>
         </ng-container>
 
         <!-- Label Name Column -->
         <ng-container matColumnDef="labelName">
-            <th mat-header-cell *matHeaderCellDef> Label Name </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Label Name </th>
             <td mat-cell *matCellDef="let element"> {{element.labelName}} </td>
         </ng-container>
 
@@ -44,13 +44,13 @@
 
         <!-- Format Column -->
         <ng-container matColumnDef="format">
-            <th mat-header-cell *matHeaderCellDef> Format </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Format </th>
             <td mat-cell *matCellDef="let element"> {{element.format }} </td>
         </ng-container>
 
         <!-- Available Stock Column -->
         <ng-container matColumnDef="availableStock">
-            <th mat-header-cell *matHeaderCellDef> Available Stock </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Available Stock </th>
             <td mat-cell *matCellDef="let element"> {{element.availableStock}} </td>
         </ng-container>
 

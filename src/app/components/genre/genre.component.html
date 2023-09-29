@@ -8,11 +8,12 @@
     </mat-progress-spinner>
 </div>
 
-<table *ngIf="!isLoading" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table *ngIf="!isLoading" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort
+    (matSortChange)="populateGenres()">
 
     <!-- Genre Description Column -->
     <ng-container matColumnDef="genreDescription">
-        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
         <td mat-cell *matCellDef="let element"> {{element.genreDescription}} </td>
     </ng-container>
 

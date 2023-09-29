@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/enviroments/enviroment';
-import { Observable, map, retry, timeout } from 'rxjs';
+import { Observable, catchError, map, of, retry, timeout } from 'rxjs';
 import { Item } from '../models/item';
 
 @Injectable({
@@ -19,17 +19,18 @@ export class ItemsService {
 
   public apiURL = environment.apiURL + '/items'
 
-  public getAll(searchQuery: string, pageNumber: number, pageSize: number): Observable<any> {
+  public getAll(searchQuery?: string, pageNumber?: number, pageSize?: number, sortColumn?: string, sortOrder?: string): Observable<any> {
     let params = new HttpParams()
-      .set("PageNumber", pageNumber)
-      .set("PageSize", pageSize)
-    if (searchQuery) {
-      params = params.set("searchQuery", searchQuery)
-    }
+    if (pageNumber) { params = params.set("PageNumber", pageNumber) }
+    if (pageSize) { params = params.set("PageSize", pageSize) }
+    if (sortColumn) { params = params.set("SortColumn", sortColumn) }
+    if (sortOrder) { params = params.set("SortOrder", sortOrder) }
+    if (searchQuery) { params = params.set("searchQuery", searchQuery) }
 
     return this.http.get<any>(this.apiURL, { observe: 'response', params }).pipe(
       retry(3),
-      timeout(15000)
+      timeout(15000),
+      catchError(error => of([]))
     );
   }
 

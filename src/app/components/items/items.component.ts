@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject, takeUntil } from 'rxjs';
 import { ItemsService } from 'src/app/services/items.service';
@@ -23,6 +24,7 @@ export class ItemsComponent {
   public pageSize = 5;
   destroy$ = new Subject<void>();
   public isLoading = true;
+  @ViewChild(MatSort, { static: false }) sort!: MatSort;
 
 
   ngOnInit() {
@@ -35,7 +37,9 @@ export class ItemsComponent {
   }
 
   public populateItems() {
-    this.itemsService.getAll('', this.currentPage, this.pageSize)
+    var sortColumn = (this.sort) ? this.sort.active : 'name';
+    var sortOrder = (this.sort) ? this.sort.direction : 'desc';
+    this.itemsService.getAll('', this.currentPage, this.pageSize, sortColumn, sortOrder)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject, takeUntil } from 'rxjs';
 import { ArtistService } from 'src/app/services/artist.service';
@@ -20,11 +21,11 @@ export class ArtistComponent {
   destroy$ = new Subject<void>();
   public errors: string[] = [];
   public isLoading = true;
-
-  constructor(private artistService: ArtistService) { }
-
   displayedColumns: string[] = ['artistName'];
   public dataSource: any;
+  @ViewChild(MatSort, { static: false }) sort!: MatSort;
+
+  constructor(private artistService: ArtistService) { }
 
   ngOnInit() {
     this.populateArtists();
@@ -36,7 +37,9 @@ export class ArtistComponent {
   }
 
   public populateArtists() {
-    this.artistService.getAll()
+    var sortColumn = (this.sort) ? this.sort.active : 'artistName';
+    var sortOrder = (this.sort) ? this.sort.direction : 'asc';
+    this.artistService.getAll('', this.currentPage, this.pageSize, sortColumn, sortOrder)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {

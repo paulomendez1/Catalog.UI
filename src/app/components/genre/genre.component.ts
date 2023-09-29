@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject, takeUntil } from 'rxjs';
 import { GenreService } from 'src/app/services/genre.service';
@@ -18,11 +19,11 @@ export class GenreComponent {
   public pageSize = 5;
   destroy$ = new Subject<void>();
   public isLoading = true;
-
-  constructor(private genreService: GenreService) { }
-
+  @ViewChild(MatSort, { static: false }) sort!: MatSort;
   displayedColumns: string[] = ['genreDescription'];
   public dataSource: any;
+
+  constructor(private genreService: GenreService) { }
 
   ngOnInit() {
     this.populateGenres();
@@ -34,7 +35,9 @@ export class GenreComponent {
   }
 
   public populateGenres() {
-    this.genreService.getAll()
+    var sortColumn = (this.sort) ? this.sort.active : 'genreDescription';
+    var sortOrder = (this.sort) ? this.sort.direction : 'desc';
+    this.genreService.getAll('', this.currentPage, this.pageSize, sortColumn, sortOrder)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
